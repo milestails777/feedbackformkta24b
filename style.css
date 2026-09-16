@@ -1,0 +1,150 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
+.form-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 500px;
+}
+
+h2 {
+    color: #2d3748;
+    font-size: 24px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.subtitle {
+    color: #718096;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    color: #4a5568;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #2d3748;
+    background-color: #f7fafc;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3182ce;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+}
+
+
+.rating-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.rating-option {
+    flex: 1;
+    cursor: pointer;
+}
+
+.rating-option input {
+    display: none; 
+}
+
+.rating-option span {
+    display: block;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f7fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #4a5568;
+    transition: all 0.2s ease;
+}
+
+.rating-option input:checked + span {
+    background-color: #288a2d;
+    border-color: #43ce31;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.rating-option:hover span {
+    border-color: #3182ce;
+    color: #3182ce;
+}
+
+.rating-option input:checked:hover span {
+    color: #ffffff;
+}
+
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #b41414;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #1db93f;
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+
+@media (max-width: 480px) {
+    .form-container {
+        padding: 25px 20px;
+    }
+}

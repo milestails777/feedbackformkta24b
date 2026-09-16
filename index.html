@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Õpilase Techno TLN Tagasiside Vorm</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Õpilase Tagasiside</h2>
+        <p class="subtitle">Palun täitke kõik väljad ja saatke oma tagasiside.</p>
+
+        <form action="#" method="POST">
+            
+            
+            <div class="form-group">
+                <label for="student-name">Ees- ja perekonnanimi</label>
+                <input type="text" id="student-name" name="name" placeholder="Sisestage teie nimi siia" required>
+            </div>
+
+            
+            <div class="form-group">
+                <label for="student-class">Klass</label>
+                <input type="text" id="student-class" name="class" placeholder="K-TA-23B, K-IT-25, jne." required>
+            </div>
+
+           
+            <div class="form-group">
+                <label for="subject">Õppeaine</label>
+                <select id="subject" name="subject" required>
+                    <option value="" disabled selected>Valige õppeaine...</option>
+                    <option value="matemaatika">Matemaatika - Julia Tammela</option>
+                    <option value="eesti-keel">Eesti keel - Lea Kreinin</option>
+                    <option value="inglise-keel">Hajusrakenduse Alused I/II - Timo Triisa</option>
+                    <option value="füüsika">Rakendustarkvara - Kaupo Nõlvak</option>
+                    <option value="keemia">Andmebaasid I/II - Üllar Lindmaa</option>
+                    <option value="ajalugu">OOP - Md Rakuzzaman</option>
+                </select>
+            </div>
+
+            
+            <div class="form-group">
+                <label>Hinne õppeainele (1–5)</label>
+                <div class="rating-container">
+                    <label class="rating-option">
+                        <input type="radio" name="rating" value="1" required>
+                        <span>1</span>
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="rating" value="2">
+                        <span>2</span>
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="rating" value="3">
+                        <span>3</span>
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="rating" value="4">
+                        <span>4</span>
+                    </label>
+                    <label class="rating-option">
+                        <input type="radio" name="rating" value="5">
+                        <span>5</span>
+                    </label>
+                </div>
+            </div>
+
+            
+            <div class="form-group">
+                <label for="comment">Kommentaar</label>
+                <textarea id="comment" name="comment" rows="4" placeholder="Kirjutage selgitusi siia..."></textarea>
+            </div>
+
+            
+            <button type="submit" class="submit-btn">Saada tagasiside</button>
+
+        </form>
+    </div>
+
+</body>
+</html>
