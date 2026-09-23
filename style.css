@@ -53,6 +53,10 @@ label {
     margin-bottom: 8px;
 }
 
+.required-mark {
+    color: #d00000;
+}
+
 input[type="text"],
 select,
 textarea {
