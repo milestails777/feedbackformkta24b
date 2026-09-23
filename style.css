@@ -26,6 +26,20 @@ body {
     max-width: 700px;
 }
 
+.success-message {
+    text-align: center;
+    padding: 30px 0 10px;
+}
+
+.success-message .submit-btn {
+    margin-top: 20px;
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
 h2 {
     color: #000000;
     font-size: 24px;

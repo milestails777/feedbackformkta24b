@@ -1,0 +1,33 @@
+Kuupäev: 23.09.2026, 11:03:41
+Nimi: Samir Cibis
+Kursus: K-TA-24-B
+Õppeaine: matemaatika
+Hinne: 5
+Õppeainega hakkama saamine: 4
+Õpetamismeetodi tõhusus: 3
+Raskus: 3
+Kommentaar: test
+
+----------------------------------------
+Kuupäev: 23.09.2026, 11:07:55
+Nimi: Samir Cibis
+Kursus: K-TA-24-B
+Õppeaine: eesti-keel
+Hinne: 5
+Õppeainega hakkama saamine: 5
+Õpetamismeetodi tõhusus: 5
+Raskus: 5
+Kommentaar: Väga hea õpetaja! Mull pole probleeme üldse seal!
+
+----------------------------------------
+Kuupäev: 23.9.2026, 11:09:32
+Nimi: Samir Cibis
+Kursus: TA 24B
+Õppeaine: eesti-keel
+Hinne: 5
+Õppeainega hakkama saamine: 1
+Õpetamismeetodi tõhusus: 1
+Raskus: 1
+Kommentaar: test
+
+----------------------------------------
