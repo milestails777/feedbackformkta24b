@@ -244,8 +244,3 @@ textarea:focus {
         font-size: 12px;
     }
 }
-
-textarea {
-    resize: none;
-}
-
