@@ -11,7 +11,7 @@ const pool = new Pool({
 });
 
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, '..', 'Frontend')));
 
 async function createTable() {
     await pool.query(`

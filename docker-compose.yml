@@ -6,7 +6,7 @@ services:
     environment:
       DATABASE_URL: postgres://feedback:feedback@db:5432/feedback
     volumes:
-      - ./data:/app/data
+      - ./backend/data:/app/backend/data
     depends_on:
       db:
         condition: service_healthy
