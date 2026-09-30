@@ -14,6 +14,9 @@ Guide how to open and run a site:
 ## 3. in Terminal write a command sh server.sh to run a program.
 ## 4. Open link that has appeared in the description down below.
 
+Feedback is stored in the PostgreSQL database and mirrored in `backend/data/responses.txt` and `backend/data/responses.sql`.
+The SQL file contains an `INSERT` statement for each response.
+
 -------------------------------------------------------------------
 
 ENJOY THE USAGE!

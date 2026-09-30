@@ -6,12 +6,17 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000;
 const responsesFile = path.join(__dirname, 'data', 'responses.txt');
+const sqlResponsesFile = path.join(__dirname, 'data', 'responses.sql');
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL || 'postgres://feedback:feedback@localhost:5432/feedback'
 });
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'Frontend')));
+
+function sqlLiteral(value) {
+    return `'${String(value).replace(/'/g, "''")}'`;
+}
 
 async function createTable() {
     await pool.query(`
@@ -47,15 +52,16 @@ app.post('/api/feedback', async (request, response) => {
     }
 
     try {
+        const createdAt = new Date();
         await pool.query(
             `INSERT INTO feedback
-                (name, class_name, subject, rating, subject_progress, teaching_effectiveness, difficulty, comment)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-            [name, className, subject, rating, subjectProgress, teachingEffectiveness, difficulty, comment]
+                (name, class_name, subject, rating, subject_progress, teaching_effectiveness, difficulty, comment, created_at)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+            [name, className, subject, rating, subjectProgress, teachingEffectiveness, difficulty, comment, createdAt]
         );
 
         const textResponse = [
-            `Kuupäev: ${new Date().toLocaleString('et-EE')}`,
+            `Kuupäev: ${createdAt.toLocaleString('et-EE')}`,
             `Nimi: ${name}`,
             `Kursus: ${className}`,
             `Õppeaine: ${subject}`,
@@ -68,6 +74,17 @@ app.post('/api/feedback', async (request, response) => {
         ].join('\n');
 
         await fs.appendFile(responsesFile, textResponse, 'utf8');
+        const sqlResponse = `INSERT INTO feedback (name, class_name, subject, rating, subject_progress, teaching_effectiveness, difficulty, comment, created_at) VALUES (${[
+            name,
+            className,
+            subject,
+            rating,
+            subjectProgress,
+            teachingEffectiveness,
+            difficulty,
+            comment,
+        ].map(sqlLiteral).join(', ')}, TIMESTAMPTZ ${sqlLiteral(createdAt.toISOString())});\n`;
+        await fs.appendFile(sqlResponsesFile, sqlResponse, 'utf8');
         return response.json({ success: true });
     } catch (error) {
         console.error(error);
