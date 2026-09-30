@@ -31,3 +31,14 @@ Raskus: 1
 Kommentaar: test
 
 ----------------------------------------
+Kuupäev: 30.9.2026, 10:14:29
+Nimi: Polina Tikkerenko
+Kursus: K-TA-23B
+Õppeaine: keemia
+Hinne: 4
+Õppeainega hakkama saamine: 3
+Õpetamismeetodi tõhusus: 3
+Raskus: 3
+Kommentaar: 35 cm on kõige olulisem ja väga suur suurus.
+
+----------------------------------------
