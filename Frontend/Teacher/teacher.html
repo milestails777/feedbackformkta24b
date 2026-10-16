@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tagasiside ülevaade</title>
+    <link rel="stylesheet" href="teacher.css">
+</head>
+<body>
+    <main class="dashboard">
+        <header class="page-header">
+            <div>
+                <h1>Tagasiside ülevaade</h1>
+                <p>Õpilaste hinnangud õppeainete kaupa</p>
+            </div>
+            <div class="header-actions">
+                <a href="../Student/student.html">Ava tagasiside vorm</a>
+                <button id="logout-button" type="button">Logi välja</button>
+            </div>
+        </header>
+
+        <p id="dashboard-error" class="error-message" role="alert" hidden></p>
+
+        <section class="section" aria-labelledby="subjects-title">
+            <h2 id="subjects-title">Keskmine hinnang õppeaine järgi</h2>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Õppeaine</th>
+                            <th>Õpetaja</th>
+                            <th>Keskmine hinnang</th>
+                            <th>Vastuseid</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subjects-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section" aria-labelledby="feedback-title">
+            <h2 id="feedback-title">Tagasisided</h2>
+            <div id="feedback-list" class="feedback-list"></div>
+        </section>
+    </main>
+    <script src="teacher.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Õpetaja sisselogimine</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <main class="login-container">
+        <h1>Õpetaja sisselogimine</h1>
+        <p class="subtitle">Tagasiside vaatamiseks logi sisse.</p>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Kasutajanimi</label>
+                <input id="username" name="username" type="text" autocomplete="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Parool</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required>
+            </div>
+            <p id="login-error" class="error-message" role="alert" hidden></p>
+            <button class="submit-btn" type="submit">Logi sisse</button>
+        </form>
+        <a class="form-link" href="../Student/student.html">Tagasi tagasiside vormi</a>
+    </main>
+    <script>
+        const form = document.getElementById('login-form');
+        const errorMessage = document.getElementById('login-error');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            errorMessage.hidden = true;
+            submitButton.disabled = true;
+
+            try {
+                if (window.location.protocol === 'file:') {
+                    throw new Error('Ava leht serverist: http://localhost:3000/Teacher/login.html');
+                }
+
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(new FormData(form)))
+                });
+                const contentType = response.headers.get('content-type') || '';
+                const result = contentType.includes('application/json')
+                    ? await response.json()
+                    : null;
+                if (!response.ok) {
+                    throw new Error(result?.error || `Sisselogimine ebaõnnestus (HTTP ${response.status}).`);
+                }
+                if (!result?.success) {
+                    throw new Error('Server tagastas vigase vastuse. Veendu, et käivitad rakenduse aadressil http://localhost:3000.');
+                }
+                window.location.replace('/Teacher/teacher.html');
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorMessage.hidden = false;
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
