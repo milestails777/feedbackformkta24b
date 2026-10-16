@@ -9,8 +9,13 @@
 <body>
 
     <div class="form-container">
+        <div id="saved-feedback-banner" class="saved-feedback-banner" hidden>
+            <span>Ainult vaatamiseks</span>
+            <a href="../Teacher/teacher.html">Tagasi õpetaja lehele</a>
+        </div>
         <h2>Õpilase Tagasiside</h2>
         <p class="subtitle">Palun täitke kõik väljad ja saatke oma tagasiside.</p>
+        <p id="saved-feedback-error" class="saved-feedback-error" role="alert" hidden></p>
 
         <form id="feedback-form" action="/api/feedback" method="POST">
             
@@ -119,9 +124,71 @@
     <script>
         const form = document.getElementById('feedback-form');
         const formContainer = document.querySelector('.form-container');
+        const responseId = new URLSearchParams(window.location.search).get('responseId');
+
+        async function loadSavedFeedback() {
+            if (!responseId) {
+                return;
+            }
+
+            const banner = document.getElementById('saved-feedback-banner');
+            const errorMessage = document.getElementById('saved-feedback-error');
+            const subtitle = document.querySelector('.subtitle');
+            const submitButton = form.querySelector('.submit-btn');
+            banner.hidden = false;
+            subtitle.textContent = 'Andmebaasi salvestatud tagasiside.';
+            submitButton.hidden = true;
+            form.querySelectorAll('input, select, textarea').forEach((field) => {
+                field.disabled = true;
+            });
+
+            try {
+                const response = await fetch(`/api/teacher/feedback/${encodeURIComponent(responseId)}`);
+                if (response.status === 401) {
+                    window.location.replace('/Teacher/login.html');
+                    return;
+                }
+                if (!response.ok) {
+                    throw new Error('Tagasiside laadimine ebaõnnestus.');
+                }
+
+                const { feedback } = await response.json();
+                form.elements.namedItem('name').value = feedback.name;
+                form.elements.namedItem('class').value = feedback.class;
+                form.elements.namedItem('subject').value = feedback.subject;
+                form.elements.namedItem('comment').value = feedback.comment;
+
+                ['rating', 'subject_progress', 'teaching_effectiveness', 'difficulty'].forEach((fieldName) => {
+                    const selectedValue = String(feedback[fieldName]);
+                    const selectedOption = form.querySelector(
+                        `input[name="${fieldName}"][value="${selectedValue}"]`
+                    );
+                    if (!selectedOption) {
+                        throw new Error('Salvestatud tagasiside sisaldab vigase hinnangu.');
+                    }
+                    selectedOption.checked = true;
+                });
+
+                form.querySelectorAll('input, select, textarea').forEach((field) => {
+                    field.disabled = false;
+                });
+                form.querySelectorAll('input[type="radio"], select').forEach((field) => {
+                    field.disabled = true;
+                });
+                form.querySelectorAll('input[type="text"], textarea').forEach((field) => {
+                    field.readOnly = true;
+                });
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorMessage.hidden = false;
+            }
+        }
 
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+            if (responseId) {
+                return;
+            }
 
             const submitButton = form.querySelector('.submit-btn');
             submitButton.disabled = true;
@@ -151,6 +218,8 @@
                 alert('Vastuse saatmine ebaõnnestus. Palun proovige uuesti.');
             }
         });
+
+        loadSavedFeedback();
     </script>
 
 </body>
