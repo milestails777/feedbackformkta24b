@@ -11,12 +11,15 @@
         <header class="page-header">
             <div>
                 <h1>Tagasiside ülevaade</h1>
-                <p>Õpilaste hinnangud ja kommentaarid</p>
+                <p>Õpilaste hinnangud õppeainete kaupa</p>
             </div>
-            <a href="../Student/student.html">Ava tagasiside vorm</a>
+            <div class="header-actions">
+                <a href="../Student/student.html">Ava tagasiside vorm</a>
+                <button id="logout-button" type="button">Logi välja</button>
+            </div>
         </header>
 
-        <p class="demo-note">Kujunduse näidis – tagasisided on näidisandmed.</p>
+        <p id="dashboard-error" class="error-message" role="alert" hidden></p>
 
         <section class="section" aria-labelledby="subjects-title">
             <h2 id="subjects-title">Keskmine hinnang õppeaine järgi</h2>
@@ -30,74 +33,16 @@
                             <th>Vastuseid</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Matemaatika</td>
-                            <td>Julia Tammela</td>
-                            <td>4,5 / 5</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>Eesti keel</td>
-                            <td>Lea Kreinin</td>
-                            <td>4,5 / 5</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>Rakendustarkvara</td>
-                            <td>Kaupo Nõlvak</td>
-                            <td>4,0 / 5</td>
-                            <td>1</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="subjects-body"></tbody>
                 </table>
             </div>
         </section>
 
         <section class="section" aria-labelledby="feedback-title">
             <h2 id="feedback-title">Tagasisided</h2>
-            <div class="feedback-list">
-                <article class="feedback">
-                    <div class="feedback-heading">
-                        <h3>Matemaatika <span>— Julia Tammela</span></h3>
-                        <time datetime="2026-10-14">14. okt 2026</time>
-                    </div>
-                    <p class="rating">Hinnang: <strong>5 / 5</strong></p>
-                </article>
-
-                <article class="feedback">
-                    <div class="feedback-heading">
-                        <h3>Eesti keel <span>— Lea Kreinin</span></h3>
-                        <time datetime="2026-10-13">13. okt 2026</time>
-                    </div>
-                    <p class="rating">Hinnang: <strong>5 / 5</strong></p>
-                </article>
-
-                <article class="feedback">
-                    <div class="feedback-heading">
-                        <h3>Rakendustarkvara <span>— Kaupo Nõlvak</span></h3>
-                        <time datetime="2026-10-12">12. okt 2026</time>
-                    </div>
-                    <p class="rating">Hinnang: <strong>4 / 5</strong></p>
-                </article>
-
-                <article class="feedback">
-                    <div class="feedback-heading">
-                        <h3>Eesti keel <span>— Lea Kreinin</span></h3>
-                        <time datetime="2026-10-10">10. okt 2026</time>
-                    </div>
-                    <p class="rating">Hinnang: <strong>4 / 5</strong></p>
-                </article>
-
-                <article class="feedback">
-                    <div class="feedback-heading">
-                        <h3>Matemaatika <span>— Julia Tammela</span></h3>
-                        <time datetime="2026-10-09">9. okt 2026</time>
-                    </div>
-                    <p class="rating">Hinnang: <strong>4 / 5</strong></p>
-                </article>
-            </div>
+            <div id="feedback-list" class="feedback-list"></div>
         </section>
     </main>
+    <script src="teacher.js"></script>
 </body>
 </html>

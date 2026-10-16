@@ -57,10 +57,34 @@ h1 {
     background: #52b483;
 }
 
-.demo-note {
-    margin: 18px 0 24px;
-    color: #626a75;
-    font-size: 13px;
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-actions button {
+    padding: 9px 13px;
+    border: 1px solid #cbd2da;
+    border-radius: 8px;
+    color: #414852;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.header-actions button:hover {
+    background: #f1f4f7;
+}
+
+.error-message {
+    margin: 18px 0;
+    color: #b41414;
+    font-size: 14px;
+}
+
+[hidden] {
+    display: none !important;
 }
 
 .section + .section {
@@ -164,6 +188,10 @@ td:nth-child(3) {
         align-items: flex-start;
         flex-direction: column;
         gap: 14px;
+    }
+
+    .header-actions {
+        flex-wrap: wrap;
     }
 
     h1 {
