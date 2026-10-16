@@ -2,6 +2,7 @@ const subjectsBody = document.getElementById('subjects-body');
 const feedbackList = document.getElementById('feedback-list');
 const dashboardError = document.getElementById('dashboard-error');
 const logoutButton = document.getElementById('logout-button');
+const openFeedbackButton = document.getElementById('open-feedback-button');
 
 function addCell(row, text) {
     const cell = document.createElement('td');
@@ -43,6 +44,23 @@ function renderDashboard(data) {
         const article = document.createElement('article');
         article.className = 'feedback';
 
+        const selection = document.createElement('input');
+        selection.className = 'feedback-selection';
+        selection.type = 'radio';
+        selection.name = 'selected-feedback';
+        selection.value = String(item.id);
+        selection.setAttribute('aria-label', `Vali tagasiside: ${item.subject}`);
+        selection.addEventListener('change', () => {
+            feedbackList.querySelectorAll('.feedback').forEach((feedback) => {
+                feedback.classList.remove('selected');
+            });
+            article.classList.add('selected');
+            openFeedbackButton.disabled = false;
+            openFeedbackButton.dataset.feedbackId = selection.value;
+        });
+
+        const content = document.createElement('div');
+        content.className = 'feedback-content';
         const heading = document.createElement('div');
         heading.className = 'feedback-heading';
         const title = document.createElement('h3');
@@ -63,7 +81,8 @@ function renderDashboard(data) {
         score.textContent = `${item.rating} / 5`;
         rating.append(score);
 
-        article.append(heading, rating);
+        content.append(heading, rating);
+        article.append(selection, content);
         feedbackList.append(article);
     });
 }
@@ -98,6 +117,14 @@ logoutButton.addEventListener('click', async () => {
         dashboardError.hidden = false;
         logoutButton.disabled = false;
     }
+});
+
+openFeedbackButton.addEventListener('click', () => {
+    const feedbackId = openFeedbackButton.dataset.feedbackId;
+    if (!feedbackId) {
+        return;
+    }
+    window.location.href = `../Student/student.html?responseId=${encodeURIComponent(feedbackId)}`;
 });
 
 loadDashboard();

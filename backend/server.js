@@ -220,6 +220,49 @@ app.get('/api/teacher/dashboard', async (request, response) => {
     }
 });
 
+app.get('/api/teacher/feedback/:id', async (request, response) => {
+    try {
+        const teacher = await getAuthenticatedUser(request);
+        if (!teacher) {
+            return response.status(401).json({ error: 'Authentication required.' });
+        }
+        response.set('Cache-Control', 'no-store');
+
+        const feedbackId = Number(request.params.id);
+        if (!Number.isSafeInteger(feedbackId) || feedbackId <= 0) {
+            return response.status(400).json({ error: 'Invalid feedback ID.' });
+        }
+
+        const result = await pool.query(
+            `SELECT name, class_name, subject, rating, subject_progress,
+                    teaching_effectiveness, difficulty, comment
+             FROM feedback
+             WHERE id = $1`,
+            [feedbackId]
+        );
+        if (result.rowCount === 0) {
+            return response.status(404).json({ error: 'Feedback not found.' });
+        }
+
+        const row = result.rows[0];
+        return response.json({
+            feedback: {
+                name: row.name,
+                class: row.class_name,
+                subject: row.subject,
+                rating: Number(row.rating),
+                subject_progress: Number(row.subject_progress),
+                teaching_effectiveness: Number(row.teaching_effectiveness),
+                difficulty: Number(row.difficulty),
+                comment: row.comment || ''
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ error: 'Could not load feedback.' });
+    }
+});
+
 app.post('/api/feedback', async (request, response) => {
     const {
         name,
