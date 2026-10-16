@@ -35,14 +35,24 @@
             submitButton.disabled = true;
 
             try {
+                if (window.location.protocol === 'file:') {
+                    throw new Error('Ava leht serverist: http://localhost:3000/Teacher/login.html');
+                }
+
                 const response = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(Object.fromEntries(new FormData(form)))
                 });
+                const contentType = response.headers.get('content-type') || '';
+                const result = contentType.includes('application/json')
+                    ? await response.json()
+                    : null;
                 if (!response.ok) {
-                    const result = await response.json();
-                    throw new Error(result.error || 'Sisselogimine ebaõnnestus.');
+                    throw new Error(result?.error || `Sisselogimine ebaõnnestus (HTTP ${response.status}).`);
+                }
+                if (!result?.success) {
+                    throw new Error('Server tagastas vigase vastuse. Veendu, et käivitad rakenduse aadressil http://localhost:3000.');
                 }
                 window.location.replace('/Teacher/teacher.html');
             } catch (error) {
