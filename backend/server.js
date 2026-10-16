@@ -128,18 +128,20 @@ async function createTable() {
         )
     `);
 
-    if (!teacherUsername || !teacherPassword) {
-        throw new Error('Set TEACHER_USERNAME and TEACHER_PASSWORD to configure dashboard access.');
-    }
+    if (serverRole === 'teacher') {
+        if (!teacherUsername || !teacherPassword) {
+            throw new Error('Set TEACHER_USERNAME and TEACHER_PASSWORD to configure dashboard access.');
+        }
 
-    const salt = crypto.randomBytes(16);
-    const passwordHash = await scrypt(teacherPassword, salt, 64);
-    await pool.query(
-        `INSERT INTO teacher_users (id, username, password_hash) VALUES (1, $1, $2)
-         ON CONFLICT (id) DO UPDATE
-         SET username = EXCLUDED.username, password_hash = EXCLUDED.password_hash`,
-        [teacherUsername, `${salt.toString('hex')}:${passwordHash.toString('hex')}`]
-    );
+        const salt = crypto.randomBytes(16);
+        const passwordHash = await scrypt(teacherPassword, salt, 64);
+        await pool.query(
+            `INSERT INTO teacher_users (id, username, password_hash) VALUES (1, $1, $2)
+            ON CONFLICT (id) DO UPDATE
+            SET username = EXCLUDED.username, password_hash = EXCLUDED.password_hash`,
+            [teacherUsername, `${salt.toString('hex')}:${passwordHash.toString('hex')}`]
+        );
+    } 
 }
 
 app.get(['/Teacher', '/Teacher/', '/Teacher/teacher.html'], requireAuthenticatedPage);
