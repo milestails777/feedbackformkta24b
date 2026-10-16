@@ -6,12 +6,31 @@ services:
     ports:
       - "3000:3000"
     environment:
+      SERVER_ROLE: student
+      PORT: 3000
       DATABASE_URL: postgres://feedback:feedback@db:5432/feedback
     volumes:
       - ./backend/data:/app/backend/data
     depends_on:
       db:
         condition: service_healthy
+
+  teacher:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "3001:3001"
+    environment:
+      SERVER_ROLE: teacher
+      PORT: 3001
+      DATABASE_URL: postgres://feedback:feedback@db:5432/feedback
+    volumes:
+      - ./backend/data:/app/backend/data
+    depends_on:
+      db:
+        condition: service_healthy
+
 
   db:
     image: postgres:16-alpine

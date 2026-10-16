@@ -6,7 +6,13 @@ const { promisify } = require('util');
 const { Pool } = require('pg');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const serverRole = process.env.SERVER_ROLE || 'student';
+
+if (!['student', 'teacher'].includes(serverRole)) {
+    throw new Error('Unknown SERVER_ROLE');
+}
+
+const port = Number(process.env.PORT || 3000);
 const responsesFile = path.join(__dirname, 'data', 'responses.txt');
 const sqlResponsesFile = path.join(__dirname, 'data', 'responses.sql');
 const frontendPath = path.join(__dirname, '..', 'Frontend');
@@ -20,6 +26,27 @@ const pool = new Pool({
 });
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+    const pathname = req.path;
+
+    if (serverRole === 'student') {
+        if (pathname === '/api/feedback') {
+            return next();
+        }
+        if (pathname === '/' || pathname === '/Student' || pathname.startsWith('/Student/')) {
+            return next();
+        }
+        return res.sendStatus(404);
+    }
+
+    if (serverRole === 'teacher') {
+        if (pathname === '/' || pathname === '/Teacher' || pathname.startsWith('/Teacher/') || pathname === '/api/teacher/dashboard' || pathname === '/api/auth/login' || pathname === '/api/auth/logout') {
+            return next();
+        }
+        return res.sendStatus(404);
+    }
+});
 
 function sqlLiteral(value) {
     return `'${String(value).replace(/'/g, "''")}'`;
@@ -105,17 +132,14 @@ async function createTable() {
         throw new Error('Set TEACHER_USERNAME and TEACHER_PASSWORD to configure dashboard access.');
     }
 
-    const existingTeacher = await pool.query('SELECT username FROM teacher_users WHERE id = 1');
-    if (existingTeacher.rowCount === 0) {
-        const salt = crypto.randomBytes(16);
-        const passwordHash = await scrypt(teacherPassword, salt, 64);
-        await pool.query(
-            'INSERT INTO teacher_users (id, username, password_hash) VALUES (1, $1, $2)',
-            [teacherUsername, `${salt.toString('hex')}:${passwordHash.toString('hex')}`]
-        );
-    } else if (existingTeacher.rows[0].username !== teacherUsername) {
-        throw new Error('TEACHER_USERNAME does not match the teacher account already stored in the database.');
-    }
+    const salt = crypto.randomBytes(16);
+    const passwordHash = await scrypt(teacherPassword, salt, 64);
+    await pool.query(
+        `INSERT INTO teacher_users (id, username, password_hash) VALUES (1, $1, $2)
+         ON CONFLICT (id) DO UPDATE
+         SET username = EXCLUDED.username, password_hash = EXCLUDED.password_hash`,
+        [teacherUsername, `${salt.toString('hex')}:${passwordHash.toString('hex')}`]
+    );
 }
 
 app.get(['/Teacher', '/Teacher/', '/Teacher/teacher.html'], requireAuthenticatedPage);
@@ -277,7 +301,19 @@ app.post('/api/feedback', async (request, response) => {
     }
 });
 
-app.use(express.static(frontendPath));
+if (serverRole === 'student') {
+    app.use('/Student', express.static(path.join(frontendPath, 'Student')));
+    app.get('/', (req, res) => {
+        res.redirect('/Student/student.html')
+    });
+}
+
+if (serverRole === 'teacher') {
+    app.use('/Teacher', express.static(path.join(frontendPath, 'Teacher'), { index: false }));
+    app.get('/', (req, res) => {
+        res.redirect('/Teacher/login.html')
+    });
+}
 
 async function start() {
     await createTable();
