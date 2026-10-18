@@ -41,7 +41,7 @@ app.use((req, res, next) => {
     }
 
     if (serverRole === 'teacher') {
-        if (pathname === '/' || pathname === '/Teacher' || pathname.startsWith('/Teacher/') || pathname === '/api/teacher/dashboard' || pathname === '/api/auth/login' || pathname === '/api/auth/logout') {
+        if (pathname === '/' || pathname === '/Teacher' || pathname.startsWith('/Teacher/') || pathname === '/Student' || pathname.startsWith('/Student/') || pathname === '/api/teacher/dashboard' || (req.method === 'GET' && /^\/api\/teacher\/feedback\/[^/]+$/.test(pathname)) || pathname === '/api/auth/login' || pathname === '/api/auth/logout') {
             return next();
         }
         return res.sendStatus(404);
@@ -214,7 +214,7 @@ app.get('/api/teacher/dashboard', async (request, response) => {
 
         const [feedbackResult, subjectResult] = await Promise.all([
             pool.query(
-                `SELECT id, subject, rating, created_at
+                `SELECT id, subject, rating, comment, created_at
                  FROM feedback
                  ORDER BY created_at DESC, id DESC`
             ),
@@ -232,6 +232,7 @@ app.get('/api/teacher/dashboard', async (request, response) => {
                 subject: subjectDetails(row.subject).name,
                 teacher: subjectDetails(row.subject).teacher,
                 rating: Number(row.rating),
+                comment: row.comment || '',
                 createdAt: row.created_at
             })),
             subjects: subjectResult.rows.map((row) => ({
@@ -354,6 +355,7 @@ if (serverRole === 'student') {
 }
 
 if (serverRole === 'teacher') {
+    app.use('/Student', express.static(path.join(frontendPath, 'Student')));
     app.use('/Teacher', express.static(path.join(frontendPath, 'Teacher'), { index: false }));
     app.get('/', (req, res) => {
         res.redirect('/Teacher/login.html')

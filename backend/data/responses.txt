@@ -75,3 +75,14 @@ Raskus: 3
 Kommentaar: sAMIRcIBDWIBDQW
 
 ----------------------------------------
+Kuupäev: 18.10.2026, 20:02:18
+Nimi: Andrei Pelmenstein
+Kursus: K-TA-24B
+Õppeaine: inglise-keel
+Hinne: 3
+Õppeainega hakkama saamine: 4
+Õpetamismeetodi tõhusus: 2
+Raskus: 3
+Kommentaar: Enam vähem ütlen
+
+----------------------------------------

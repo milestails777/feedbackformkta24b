@@ -15,7 +15,6 @@ body {
     padding: 20px;
 }
 
-
 .form-container {
     background-color: #ffffff;
     border: 1.5px solid #000000;
@@ -37,7 +36,8 @@ body {
 
 .saved-feedback-banner {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
     gap: 16px;
     margin-bottom: 22px;
     padding: 12px 14px;
@@ -45,11 +45,28 @@ body {
     color: #414852;
     background: #f1f4f7;
     font-size: 14px;
+    text-align: center;
 }
 
-.saved-feedback-banner a {
+.saved-feedback-banner[hidden] {
+    display: none;
+}
+
+.back-dashboard-button {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: 8px 12px;
+    border: 1px solid #b41414;
+    border-radius: 6px;
     color: #8f1010;
+    background: #fff;
     font-weight: 600;
+    text-decoration: none;
+}
+
+.back-dashboard-button:hover {
+    color: #fff;
+    background: #8f1010;
 }
 
 .saved-feedback-error {

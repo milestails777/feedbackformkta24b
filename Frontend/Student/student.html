@@ -11,7 +11,7 @@
     <div class="form-container">
         <div id="saved-feedback-banner" class="saved-feedback-banner" hidden>
             <span>Ainult vaatamiseks</span>
-            <a href="../Teacher/teacher.html">Tagasi õpetaja lehele</a>
+            <a class="back-dashboard-button" href="../Teacher/teacher.html">Tagasi õpetaja lehele</a>
         </div>
         <h2>Õpilase Tagasiside</h2>
         <p class="subtitle">Palun täitke kõik väljad ja saatke oma tagasiside.</p>
@@ -135,12 +135,6 @@
             const errorMessage = document.getElementById('saved-feedback-error');
             const subtitle = document.querySelector('.subtitle');
             const submitButton = form.querySelector('.submit-btn');
-            banner.hidden = false;
-            subtitle.textContent = 'Andmebaasi salvestatud tagasiside.';
-            submitButton.hidden = true;
-            form.querySelectorAll('input, select, textarea').forEach((field) => {
-                field.disabled = true;
-            });
 
             try {
                 const response = await fetch(`/api/teacher/feedback/${encodeURIComponent(responseId)}`);
@@ -178,6 +172,9 @@
                 form.querySelectorAll('input[type="text"], textarea').forEach((field) => {
                     field.readOnly = true;
                 });
+                banner.hidden = false;
+                subtitle.textContent = 'Andmebaasi salvestatud tagasiside.';
+                submitButton.hidden = true;
             } catch (error) {
                 errorMessage.textContent = error.message;
                 errorMessage.hidden = false;

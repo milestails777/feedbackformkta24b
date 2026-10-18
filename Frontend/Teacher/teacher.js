@@ -82,6 +82,30 @@ function renderDashboard(data) {
         rating.append(score);
 
         content.append(heading, rating);
+        if (item.comment && item.comment.trim()) {
+            const commentId = `feedback-comment-${item.id}`;
+            const commentButton = document.createElement('button');
+            commentButton.className = 'comment-toggle';
+            commentButton.type = 'button';
+            commentButton.textContent = 'Rohkem info';
+            commentButton.setAttribute('aria-expanded', 'false');
+            commentButton.setAttribute('aria-controls', commentId);
+
+            const comment = document.createElement('p');
+            comment.className = 'feedback-comment';
+            comment.id = commentId;
+            comment.textContent = item.comment;
+            comment.hidden = true;
+
+            commentButton.addEventListener('click', () => {
+                const isExpanded = commentButton.getAttribute('aria-expanded') === 'true';
+                comment.hidden = isExpanded;
+                commentButton.setAttribute('aria-expanded', String(!isExpanded));
+                commentButton.textContent = isExpanded ? 'Vaata kommentari' : 'Sulge kommentari';
+            });
+
+            content.append(commentButton, comment);
+        }
         article.append(selection, content);
         feedbackList.append(article);
     });

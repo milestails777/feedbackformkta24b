@@ -1,2 +1,2 @@
-http://localhost:3000
-http://localhost:3001/Teacher/login.html
+http://localhost:3010
+http://localhost:3011/Teacher/login.html

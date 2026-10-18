@@ -4,7 +4,7 @@ services:
     env_file:
       - .env
     ports:
-      - "3000:3000"
+      - "3010:3000"
     environment:
       SERVER_ROLE: student
       PORT: 3000
@@ -20,7 +20,7 @@ services:
     env_file:
       - .env
     ports:
-      - "3001:3001"
+      - "3011:3001"
     environment:
       SERVER_ROLE: teacher
       PORT: 3001
@@ -30,7 +30,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
 
   db:
     image: postgres:16-alpine
