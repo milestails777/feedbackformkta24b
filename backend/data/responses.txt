@@ -86,3 +86,25 @@ Raskus: 3
 Kommentaar: Enam vähem ütlen
 
 ----------------------------------------
+Kuupäev: 21.10.2026, 09:51:23
+Nimi: Samir Cibis
+Kursus: TA-24B
+Õppeaine: füüsika
+Hinne: 3
+Õppeainega hakkama saamine: 3
+Õpetamismeetodi tõhusus: 3
+Raskus: 3
+Kommentaar: dwdwdw
+
+----------------------------------------
+Kuupäev: 21.10.2026, 10:04:06
+Nimi: Samir Cibis
+Kursus: K-TA-24B
+Õppeaine: matemaatika
+Hinne: 5
+Õppeainega hakkama saamine: 4
+Õpetamismeetodi tõhusus: 3
+Raskus: 2
+Kommentaar: I love this lesson, it is really good
+
+----------------------------------------

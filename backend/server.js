@@ -41,7 +41,7 @@ app.use((req, res, next) => {
     }
 
     if (serverRole === 'teacher') {
-        if (pathname === '/' || pathname === '/Teacher' || pathname.startsWith('/Teacher/') || pathname === '/Student' || pathname.startsWith('/Student/') || pathname === '/api/teacher/dashboard' || (req.method === 'GET' && /^\/api\/teacher\/feedback\/[^/]+$/.test(pathname)) || pathname === '/api/auth/login' || pathname === '/api/auth/logout') {
+        if (pathname === '/' || pathname === '/Teacher' || pathname.startsWith('/Teacher/') || pathname === '/Student' || pathname.startsWith('/Student/') || pathname === '/api/feedback' || pathname === '/api/teacher/dashboard' || (req.method === 'GET' && /^\/api\/teacher\/feedback\/[^/]+$/.test(pathname)) || pathname === '/api/auth/login' || pathname === '/api/auth/logout') {
             return next();
         }
         return res.sendStatus(404);
